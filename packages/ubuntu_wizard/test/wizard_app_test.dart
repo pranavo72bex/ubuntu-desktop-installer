@@ -12,6 +12,8 @@ import 'package:ubuntu_wizard/app.dart';
 
 import 'wizard_app_test.mocks.dart';
 
+// ignore_for_file: type=lint
+
 @GenerateMocks([IOSink, SubiquityStatusMonitor])
 void main() {
   final endpoint = Endpoint.unix('socket path');
@@ -114,7 +116,7 @@ void main() {
   testWidgets('starts and registers the monitor', (tester) async {
     final endpoint = Endpoint.unix('/tmp/subiquity.sock');
     final monitor = MockSubiquityStatusMonitor();
-    when(monitor.start(endpoint.address)).thenAnswer((_) async => true);
+    when(monitor.start(endpoint)).thenAnswer((_) async => true);
 
     final server = MockSubiquityServer();
     when(server.start(any,
@@ -129,6 +131,6 @@ void main() {
     );
 
     expect(getService<SubiquityStatusMonitor>(), equals(monitor));
-    verify(monitor.start(endpoint.address)).called(1);
+    verify(monitor.start(endpoint)).called(1);
   });
 }
